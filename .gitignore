@@ -1,0 +1,14 @@
+# Python stuff
+__pycache__/
+*.py[cod]
+venv/
+env/
+
+# Database
+db.sqlite3
+
+# Docker
+.env
+
+# OS specific
+.DS_Store

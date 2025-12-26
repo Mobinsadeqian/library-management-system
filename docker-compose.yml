@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  # سرویس اول: دیتابیس پستگرس
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=library_db
+      - POSTGRES_USER=library_user
+      - POSTGRES_PASSWORD=library_password
+
+  # سرویس دوم: جنگو (سایت خودمون)
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DB_NAME=library_db
+      - DB_USER=library_user
+      - DB_PASSWORD=library_password
+      - DB_HOST=db
+
+volumes:
+  postgres_data:
